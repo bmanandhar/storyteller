@@ -9,18 +9,19 @@
     <link rel="shortcut icon" href="/media/site/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="static/css/main.css">
     <link rel="stylesheet" href="static/css/site.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
     <title>StoryTeller</title>
 </head>
 <body>
     {% if user.is_authenticated == True  %}
     <div id="fpg">
         <div id="dcontent" class="rounded">
-                <i id="cls_ld" class="">close</i>
-            <div class="border rounded">
-                <div>
-                    <h4 class="prfh">Profile</h4>
-                </div>
+            <i id="cls_ld" class="">close</i>
+            <div class="border rounded" id="tpcontent">
+                
             </div>
         </div>
     </div>
@@ -69,7 +70,7 @@
                 </li>
                 {% else  %}
                 <li class="nav-item llg">  
-                    <a class="nav-link lnav wclr" href="{% url 'profile' %}" >Profile</a>
+                    <a class="nav-link lnav wclr" id="profile" href="{% url 'profile' %}" >Profile</a>
                 </li>
                 <li class="nav-item llg">  
                     <a class="nav-link lnav wclr" href="{% url 'logout' %}" >Log out</a>

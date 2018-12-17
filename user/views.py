@@ -25,10 +25,9 @@ def userLogout(request) :
 
 @login_required
 def userProfile(request) :
-     if request.method == 'POST':
-          return render(request,'page/profile.html',{ })
-     else :
-          return HttpResponse(status=403)
+    
+     return render(request,'page/profile.html',{ })
+    
 def userLogin(request):
      if request.method == 'POST':
           errors = {}

@@ -13,4 +13,25 @@
             $('a.lnav').addClass('wclr');
         }
     });
+
+    
+    $('#profile,#cls_ld').click(function(e){
+        e.preventDefault();
+        if($('#dcontent').css('top')== '0px'){
+            $('#dcontent').css('top','-300vh');
+            setTimeout(function(){ 
+                $( "#fpg" ).slideToggle( "fast");
+                $('#tpcontent').empty();
+            }, 300);
+        }else{
+            $( "#fpg" ).slideToggle( "fast");
+            $('#dcontent').css('top','0');
+            $('#tpcontent').load('user/profile',function(e){
+                console.log('done');
+            });
+        }
+    });
+
+
+
 }());
