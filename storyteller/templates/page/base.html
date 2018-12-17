@@ -1,0 +1,70 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   
+    <link rel="shortcut icon" href="/media/site/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="static/css/site.css">
+    <title>StoryTeller</title>
+</head>
+<body>
+    <div class="navbar navbar-expand-lg fixed-top navbar-light ">
+        <div class="container">
+          <a href="../" class="navbar-brand">Story-<span class="hrc">Teller</span></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav">
+              
+              <li class="nav-item">
+                <a class="nav-link" href="../">Main</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="stories">Stories</a>
+              </li>
+             
+            </ul>
+  
+            <ul class="nav navbar-nav ml-auto">
+                {% if user.is_authenticated == False  %}
+                <li class="nav-item llg">  
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2 ilog" type="text" placeholder="Username">
+                        <input class="form-control mr-sm-2 ilog" type="password" placeholder="Password">
+                        <button class="btn btn-outline-info btn-wh lbtn my-2 my-sm-0" type="submit">Log In</button>
+                    </form>
+                </li>
+                {% else  %}
+                <li class="nav-item llg">  
+                        <a class="nav-link" href="https://wrapbootstrap.com/?ref=bsw" target="_blank">Profile</a>
+                </li>
+                <li class="nav-item llg">  
+                        <a class="nav-link" href="https://wrapbootstrap.com/?ref=bsw" target="_blank">Log out</a>
+                </li>
+                {% endif%}
+            </ul>
+  
+          </div>
+        </div>
+    </div>
+    <div class="fp bg-grd">
+        <div class="container">
+
+        </div>
+    </div>
+    <div class="fp">
+        <div class="container">
+            
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="static/js/main.js"></script>
+</html>

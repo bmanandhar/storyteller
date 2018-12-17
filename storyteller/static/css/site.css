@@ -1,0 +1,32 @@
+.hrc{
+    color:#ce0404;
+}
+.ilog{
+    height: auto;
+    padding: 0.35rem 1rem;
+    font-size:.9rem;
+    margin-right: 10px;
+
+}
+.lbtn{
+    font-weight: normal;
+    padding: 0.36rem 1rem;
+    font-size:.8rem;
+}
+.llg{
+    margin-left:7px;
+}
+.fp{
+    height:100vh;
+   
+}
+.bg-grd{
+    background-image: linear-gradient(60deg, white 35% , #369);
+}
+.btn-wh{
+    color:white;
+    border-color:white;
+}
+.navbar{
+    transition:all .5s ease;
+}
