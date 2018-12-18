@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+    <form action="/create" method="post">
+        <label type="input">comment-form</label>>
+      {% csrf_token %}
+      <label for="comment">Comment<input type="text" name="comment" id="comment"> </label>
+      <label for="user">Body <input type="text" name="user" id="user"> </label>
+      <label for="date">Date <input type="text" name="date" id="date"> </label>
+      <input type="submit" value="Create" />
+    </form>
+    <table>
+      <thead>
+        <th>Comment</th>
+      </thead>
+      <tbody>
+        {% for comment in comments %}
+        <td><a href="/edit/{{ comment.id }}">Edit </a><a href="/delete/{{ comment.id }}"></a>Delete </td>
+        {% endfor %}
+      </tbody> 
+    </table>
+</body>
+</html>
