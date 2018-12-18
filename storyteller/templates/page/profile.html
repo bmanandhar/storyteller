@@ -1,1 +1,290 @@
-sdffdsf
+<div id="profile">
+    <div class="row">
+        <div class="col-sm-4 ">
+            <div id="profile_pic">
+                <div id="profiledit" class=""><p class="btn btn-info">Edit</p></div>
+                    <div id="imgeditcon" class=""></div>
+                    <div id="imgedit" class=""><div></div></div>
+            </div>
+            <div id="editimgopt">
+                    <input type="range" value="0" id="zimg" name="volume" min="-100" max="100">
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="profilimageUpload">
+                            <label class="custom-file-label" id="profilimageUploadlabel" for="inputGroupFile02">Choose New Image</label>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="text-right" id="btns_profile">
+                            <div class="btn btn-secondary" id="cancelImg">Cancel</div>
+                            <div class="btn btn-primary" id="chgimg">Change Image</div>
+                    </div>
+            </div>
+            
+        </div>
+        <div class="col-sm-8 ">
+            <h3 class="hclr">Profile</h3>
+            <div class="form-group">
+                <form>
+                <label class="control-label">Name</label>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                    <input type="text" readonly class="form-control" name="name" >
+                    <div class="">
+                        <span class="btn btn-info btn_radc ">Edit</span>
+                    </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="form-group">
+                <form>
+                <label class="control-label">Email</label>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                    <input type="text" readonly class="form-control" name="email">
+                    <div class="">
+                        <span class="btn btn-info btn_radc ">Edit</span>
+                    </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Username</label>
+                <form>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                    <input type="text" readonly class="form-control" name="username">
+                    <input type="text" placeholder="Old password" class="form-control"name="old_password">
+                    <div class="">
+                        <span class="btn btn-info btn_radc ">Edit</span>
+                    </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="form-group">
+                <form>
+                <label class="control-label">Password</label>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                    <input type="text" readonly class="form-control" name="password">
+                    <input type="text" placeholder="Old password" class="form-control" name="old_password">
+                    <div class="">
+                        <span class="btn btn-info btn_radc ">Edit</span>
+                    </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+
+
+            
+        </div>
+        
+    </div>
+</div>
+
+<style>
+    #profile_pic{
+        width:100%;
+        height:400px;
+        position: relative;
+        overflow: hidden;
+        
+    }
+    #imgedit{
+        height:100%;
+        width:100%;
+        
+        background-color:rgb(0,0,0,.5);
+        position:absolute;
+        top:0; left:0;
+        z-index:1000;
+    }
+    #imgedit >div{
+        height:60%;
+        width:60%;
+        margin:20% auto;
+        
+        background-image: url('/media/userpic/ujwal.jpg');
+        background-repeat: no-repeat;
+        
+        background-size:500px auto;
+        z-index: 20000;
+        
+    }
+    #imgeditcon{
+        position:absolute;
+        top:0; left:0;
+        height:100%;
+        width:100%;
+        background-image: url('/media/userpic/ujwal.jpg');
+        background-repeat: no-repeat;
+        background-position: 0px 0px;
+        background-size:500px auto;
+        
+    }
+    #profiledit{
+        position:absolute;
+        right:0px;
+        top:0px;
+        z-index: 10000;
+        font-style: normal;
+        display: none;
+        text-align: center;
+        width:100%; height:100%;
+        transition:all 1s ease;
+       
+    }
+    #profiledit > p{        
+        transition:all .3s ease;        
+        width:150px;
+        margin:0 auto;
+        margin-top:-5000px;
+        padding:7px 15px; 
+    }
+    #btns_profile{
+        width:100%;
+       
+    }
+    #zimg{
+        width:100%;
+    }
+    #editimgopt{
+        display: none;
+    }
+    .btn_radc{
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border:1px solid #369;
+    }
+</style>
+<script type="text/javascript">
+$(document).ready(function(e){
+
+   
+console.log($('#imgedit >div').css('background-image'));
+    var start_url = $('#imgedit >div').css('background-image');
+    var mouseStatus = null
+    var editimage = false;
+    var parentOffset = $('#imgedit').offset(); 
+    var innerOff = $('#imgedit >div').offset(); 
+   
+    var startX = 0;
+    var startY = 0;
+    var backx = 0;
+    var backy = 0;
+    
+    var tops  = innerOff.top - parentOffset.top;
+    var lefts  = innerOff.left - parentOffset.left;
+    var sizePic = parseFloat($('#imgedit >div').css('background-size').split(' ')[0]);
+    $('#imgedit').hide();
+    $('#imgedit >div').css('background-position','-'+tops+'px -'+lefts+'px');
+    $('#imgedit').mousedown(function(e){
+       
+        mouseStatus = 'down';
+        startX = e.pageX - parentOffset.left;
+        startY = e.pageY - parentOffset.top;
+        backx = parseFloat($('#imgeditcon').css('background-position-x'));
+        backy = parseFloat($('#imgeditcon').css('background-position-y'));
+        $(this).css('cursor','move');
+       
+    });
+    $('#imgeditcon').mouseout(function(e){
+        mouseStatus = null;
+        $('#imgedit').css('cursor','auto');
+    })
+    $('#imgedit').mouseup(function(e){
+        mouseStatus = null;
+        $('#imgedit').css('cursor','auto');
+        
+    });
+    $('#imgedit').mousemove(function(e){
+       
+        if( mouseStatus == 'down'){
+            x =  (e.pageX - parentOffset.left);
+            y = (e.pageY - parentOffset.top);
+            xx = backx + x - startX ;
+            yy = backy + y-startY ;
+          
+            $('#imgeditcon').css('background-position-x',xx+'px');
+            $('#imgeditcon').css('background-position-y',yy+'px');
+
+            $('#imgedit>div').css('background-position-x',xx -lefts+'px');
+            $('#imgedit>div').css('background-position-y',yy-tops+'px');
+
+        }
+    });
+    $('#zimg').on('input',function(e){
+        var scl = parseInt($(this).val())/100;       
+        var size = sizePic + scl* sizePic;
+        
+        $('#imgeditcon').css('background-size',size+'px auto');
+        $('#imgedit>div').css('background-size',size+'px auto');
+    });
+    $('#profile_pic').hover(function(e){
+        if(editimage == false){
+            $('div#profiledit').css('background-color','rgb(0,0,0,.4)').show();
+            $('div#profiledit p').css('margin-top','100px');
+        }
+       
+    },function(e){
+        $('div#profiledit').css('background-color','rgb(0,0,0,0)').hide();
+        $('div#profiledit p').css('margin-top','-5000px');
+    });
+    $('#profiledit > p').click(function(e){
+        editimage = true;
+        $('#profile_pic').trigger('mouseout');
+        $('#imgedit').show();
+        $('#editimgopt').show();
+    });
+    $('#cancelImg').click(function(e){
+        $('#imgedit').hide();
+        $('#editimgopt').hide();
+        editimage = false;
+        $('#imgeditcon,#imgedit >div').css('background-image','500px auto');
+        // start_url
+    });
+    $('#chgimg').click(function(e){
+        editimage = false;
+        scale = parseFloat($('#imgeditcon').width())/parseFloat($('#imgedit >div').width());
+        $('#imgedit').hide();
+        bsz = parseFloat($('#imgedit >div').css('background-size').split(' ')[0]);
+        
+        bpx = parseFloat($('#imgedit >div').css('background-position-x'));
+        bpy = parseFloat($('#imgedit >div').css('background-position-y'));
+        
+        $('#imgeditcon').css('background-position-x',bpx*scale+'px');
+        $('#imgeditcon').css('background-position-y',bpy*scale+'px');
+        $('#imgeditcon,#imgedit >div').css('background-size',bsz*scale+'px auto');
+        $('#imgedit>div').css('background-position-x',(bpx*scale) -lefts+'px');
+        $('#imgedit>div').css('background-position-y',(bpy*scale)-tops+'px');
+        sizePic = bsz*scale;
+        $('#zimg').val(0);
+        
+    });
+    $('#profilimageUpload').change(function(e){
+        
+        var fname = $(this)[0].files[0].name;
+        if ($(this)[0].files && $(this)[0].files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#profilimageUploadlabel').empty().text(fname);
+                $('#imgeditcon').css('background', 'url('+e.target.result +') no-repeat');
+                $('#imgedit>div').css('background', 'url('+e.target.result +') no-repeat');
+                $('#imgedit >div').css('background-position','-'+tops+'px -'+lefts+'px');
+                $('#imgeditcon,#imgedit >div').css('background-size','500px auto');
+            }
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
+    });
+    $('.btn_radc').click(function(e){
+        console.log('clock');
+    });
+});
+</script>

@@ -27,7 +27,7 @@
             $( "#fpg" ).slideToggle( "fast");
             $('#dcontent').css('top','0');
             $('#tpcontent').load('user/profile',function(e){
-                console.log('done');
+                
             });
         }
     });

@@ -41,6 +41,9 @@
     color:#449ad2;
     padding-top:6rem;
 }
+.hclr{
+    color:#449ad2;
+}
 .wht{
     color:white;
 }
@@ -106,3 +109,8 @@
     color:#449ad2;
    
 }
+@media screen and (max-width: 984px) {
+    .wclr{
+        color:black !important;
+    }
+  }
