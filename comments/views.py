@@ -1,23 +1,35 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-@csrf_exempt
+from .models import Comment
+
 # Create your views here.
 
+@csrf_exempt
 def createComment(request):
-    if request.method == 'POST':
-        print('zzz+zzzz+zzz')
-        print(request.POST)
-        return HttpResponse('Got it!')
+		return render(request, 'page/comment.html')
 
-def updateComment(request):
-    if request.method == 'POST':
-        print('yy-yy-yy-yy')
-        print(request.POST)
-        return HttpResponse('Got it!')
+@csrf_exempt
+def updateComment(request, id):
+    comment = comment.objects.get(id=id)
+    comment.user = request.POST['user']
+    comment.body = request.POST['comment']
+    story.date = request.POST['date']
+    stroy.title = request.POST['title']
+    story.save()
+    return redirect('/')
 
+
+@csrf_exempt
+def update(request, id):
+    story = Story.objects.get(id=id)
+    story.user = request.POST['user']
+    story.body = request.POST['body']
+    story.date = request.POST['date']
+    stroy.title = request.POST['title']
+    story.save()
+    return redirect('/')
+@csrf_exempt
 def deleteComment(request):
     if request.method == 'POST':
-        PRINT('xx..xxx..xx')
-        print((request.POST))
-        return HttpResponse('deleted')
+        return HttpResponse('Got deletes!')
