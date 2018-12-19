@@ -109,6 +109,18 @@
     color:#449ad2;
    
 }
+#message{
+    position:fixed;
+    right:30px; top:-1000px;
+    z-index: 100000;
+    padding:15px;
+    background-color:#e26161;
+    color:white;
+    min-height: 0;
+    overflow: hidden;
+    transition: top .3s ease;
+    font-size:.9rem;
+}
 @media screen and (max-width: 984px) {
     .wclr{
         color:black !important;

@@ -1,5 +1,13 @@
-(function(){
+ function showMessage(message){
+    $('#message').empty().append(message).css('top','30px');
+    setTimeout(function(){ 
+        $('#message').empty().css('top','-1000px');
+    }, 4000)
+}
 
+
+(function(){
+    
     $(window).scroll(function () {
         var scroll = $(this).scrollTop();
         if(scroll > 3){
@@ -26,7 +34,7 @@
         }else{
             $( "#fpg" ).slideToggle( "fast");
             $('#dcontent').css('top','0');
-            $('#tpcontent').load('user/profile',function(e){
+            $('#tpcontent').load('/user/profile',function(e){
                 
             });
         }

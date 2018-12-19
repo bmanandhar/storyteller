@@ -1,0 +1,242 @@
+{% extends "../page/base.html" %}
+{% block content %}
+
+<div id="storypage">
+    {% if user.is_authenticated == True  %}
+    <div class="container mb-3">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link strlink active" data-toggle="tab" href="#home">All Stories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link strlink" data-toggle="tab" href="#profile"><span>Published Stories</span><span class="addstr">&nbsp;&nbsp; [ + ] </span></a>
+                    
+                </li>
+               
+            </ul>
+    </div>
+    {% endif %}
+    <div class="container" id="storyfield">
+            
+            <!-- <div class="story">
+                <div class="editstr"><span class="stredit">Edit</span><span class="strdelete">Delete</span></div>
+                <h4 class="hstr">This is a new story and this is it heading</h4>
+                <div class="clearfix">
+                    <img class="imgstrf float-left" src="http://{{ baseurl }}/media/userpic/ujwal.jpg">
+                    <p class="authorstr">Author : Ujwalrai</p>
+                    <p class="publishstr">Published at : 2018-12-12</p>
+                    <div class="bodystr">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis ipsam voluptatum quas iusto, obcaecati nulla cupiditate. Neque corporis, necessitatibus aliquam nesciunt obcaecati ab itaque optio, laudantium eaque quidem vitae ut.</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis ipsam voluptatum quas iusto, obcaecati nulla cupiditate. Neque corporis, necessitatibus aliquam nesciunt obcaecati ab itaque optio, laudantium eaque quidem vitae ut.</p>
+                        
+                    </div>
+                </div>
+            </div> -->
+    </div><!--  end of container  -->
+
+</div>
+<style>
+    body{
+        padding-top:80px;
+        background-color:#fafafa;
+    }
+    .navbar{
+        background-color:white;
+        border-bottom: 1px solid #ddd;
+    }
+    .wclr{
+        color:inherit !important;
+    }
+    
+    #storypage .active{
+        background-color:transparent;
+        color:black;
+        cursor:inherit;
+    }
+    .addstr{
+        color:black;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 1000;
+    }
+    .hstr{
+        margin-bottom:20px;
+    }
+    .hstr a{
+        color:black;
+    }
+    .imgstrf{
+        widows: 50px;
+        height:50px;
+        border-radius: 30px;
+        margin-right:15px;
+    }
+    .authorstr,.publishstr{
+        margin:0; padding:0;
+        font-size:.9rem;
+        color:#878787;
+    }
+    .story{
+        border:1px solid #efefef;
+        background-color:white;
+        padding:15px;
+        margin-bottom:15px;
+        position: relative;
+        /* transition:all .5s ease; */
+        overflow: hidden;
+     
+    }
+    .bodystr{
+        margin-top:30px;
+    }
+    .editstr{
+        position:absolute;
+        right:10px; top:0;
+        overflow: hidden;
+        height: 0;
+        transition:all .5s ease;
+
+    }
+    .editstr span{
+        font-size: .6rem;
+        background-color:red;
+        text-transform: uppercase;
+        color:white;
+        margin-left:5px;
+        padding:4px 10px;
+        cursor: pointer;
+    }
+    .story:hover .editstr{
+        height:30px;
+    }
+    .dnone{
+        display: none;
+    }
+</style>
+<script type="text/javascript">
+
+(function(){
+    var finish = false;
+    function render(obj,i,specific){
+        if(obj[i]!=undefined){
+            var ele = '<div class="story dnone">';
+            if(specific==true){
+                ele +='<div data-id="'+obj[i].id+'" class="editstr"><span class="stredit">Edit</span>';
+                ele +='<span class="strdelete">Delete</span></div>';
+            }
+            ele += '<h4 class="hstr">'+obj[i].title+'</h4>';
+            ele += '<div class="clearfix">';
+            ele += '<img class="imgstrf float-left" src="http://{{ baseurl }}/media/userpic/'+obj[i].user_id.pic+'">';
+            ele += '<p class="authorstr">Author : Ujwalrai</p>';
+            ele += '<p class="publishstr">Published at : '+obj[i].date+'</p>';
+            ele += '<div class="bodystr">';
+            ele += '<p>'+obj[i].body+'</p>';
+            ele += '</div>';
+            ele += '</div>';
+            ele += '</div>';
+            $('#storyfield').append(ele).children('div.story:last-child').slideDown('fast');
+            setTimeout(function(){ 
+                render(obj,i+1,specific)
+                
+            }, 300);
+        }
+        else{
+            finish = true;
+        }
+    }
+    function getStory(offset,append,specific){
+        var url = (specific==true)?'/story/user/'+offset:"/story/all/"+offset;
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function(resp) {
+                if(resp.stories.length > 0){
+                    if(append!==true){
+                        $('#storyfield').empty();
+                    }
+                    render(resp.stories,0,specific)             
+                }
+                else{
+                    finish = false;
+                }
+              
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+               
+            }
+        });
+    }
+    getStory(0);
+    
+    $(window).scroll(function () {    
+        var scrollHeight = $(document).height();
+        var scrollPosition = $(window).height() + $(window).scrollTop();
+       
+        if ((scrollHeight - scrollPosition) / scrollHeight < 0.0008) {
+           
+            var strType = $('#storypage a.active').text().split(' ')[0].toLocaleLowerCase();
+            if(strType=='all' &&  finish == true ){
+                finish = false;
+                getStory($('#storyfield >div').length,true);
+            }else if(strType=='published' && finish == true ){
+                finish = false;
+                getStory($('#storyfield >div').length,true,true);
+            }
+            
+        }
+    });
+    // creating stroy
+    $('.addstr').click(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        
+        if($('#dcontent').css('top')== '0px'){
+            $('#dcontent').css('top','-300vh');
+            setTimeout(function(){ 
+                $( "#fpg" ).slideToggle( "fast");
+                $('#tpcontent').empty();
+            }, 300);
+        }else{
+            $( "#fpg" ).slideToggle( "fast");
+            $('#dcontent').css('top','0');
+            $('#tpcontent').load('create',function(e){
+                
+            });
+        }
+    });
+    // geting story
+    $('.strlink').click(function(e){
+        if(!$(this).hasClass('active')){
+            
+            $('#storyfield').empty();
+            var strs = $(this).text().split(' ')[0].toLocaleLowerCase();
+            if(strs=='all'){
+                getStory($('#storyfield >div').length,true);
+            }else{
+                getStory($('#storyfield >div').length,true,true);
+            }
+        }
+        
+    });
+    // for edit
+    $('#storyfield').on('click','div.story span.stredit',function(e){
+        
+        if($('#dcontent').css('top')== '0px'){
+            $('#dcontent').css('top','-300vh');
+            setTimeout(function(){ 
+                $( "#fpg" ).slideToggle( "fast");
+                $('#tpcontent').empty();
+            }, 300);
+        }else{
+            $( "#fpg" ).slideToggle( "fast");
+            $('#dcontent').css('top','0');
+            $('#tpcontent').load('/story/'+$(this).parent('div').data('id')+'/edit',function(e){
+                
+            });
+        }
+    });
+}())
+
+</script>
+
+{% endblock %}

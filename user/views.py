@@ -6,17 +6,21 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.middleware import csrf
 import re
 
 
+
+
 # Create your views here.
+
 
 def home(request):    
      errs = request.session.get('errs')
      privErrs =  errs
      if errs != None :
           del request.session['errs']
-     return render(request,'page/main.html',{ 'data' : privErrs })
+     return render(request,'page/main.html',{ 'data' : privErrs,'baseurl':request.get_host() })
 
 @login_required
 def userLogout(request) :
@@ -24,9 +28,8 @@ def userLogout(request) :
      return redirect('home')
 
 @login_required
-def userProfile(request) :
-    
-     return render(request,'page/profile.html',{ })
+def userProfile(request) :    
+     return render(request,'page/profile.html',{'baseurl':request.get_host(),'csrf':csrf.get_token(request) })
     
 def userLogin(request):
      if request.method == 'POST':
@@ -81,7 +84,7 @@ def register(request) :
                                         first_name=fullname
                                  )
                login(request,user)
-               print(user)
+              
                return redirect('home' )
           else :
                request.session['errs'] = errors
