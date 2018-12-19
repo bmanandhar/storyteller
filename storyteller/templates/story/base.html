@@ -1,12 +1,15 @@
+{% extends base.html %}
 <html>
     <head>
         <title>Story Teller</title>
+        <link rel="stylesheet" href="static/css/contact.css">
     </head>
     {% block content %}
     <body>
         <h1>Story Teller</h1>
         <div class="fp">
             <div class="container">
+                <a class="hamburger" href=""><i class="fa fa-bars"></i></a>
                 <form method="post" action="mailto:ortizjay83@gmail.com" >
                     <input type="text" placeholder="Full Name" class="col-third">
                     <input type="email" placeholder="Email" class="col-third">

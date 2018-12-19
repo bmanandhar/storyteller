@@ -11,12 +11,12 @@ def index(request):
     context = {
         'storys':storys
         }
-    return render(request, 'story/index.html', context)
+    return render(request, '/story/', context)
 
 def details(request, id=None):
-    context = { 'stroy' :story}
+    context = { 'story' :story}
     story = Story.objects.get(id=id)
-    return render(request, 'story/index.html', context) 
+    return render(request, '/story/', context) 
 
 
 @csrf_exempt
@@ -42,7 +42,7 @@ def edit(request, id):
     context = {
         'story':story
         }
-    return render(request, 'story/edit.html', context )
+    return render(request, '/story/', context )
 
 def update(request, id):
     story = Story.objects.get(id=id)
