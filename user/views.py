@@ -83,8 +83,10 @@ def register(request) :
                                         password=password,
                                         first_name=fullname
                                  )
+               
+               profile = UserProfile(profile_pic = 'default.png', user = user )
+               profile.save()
                login(request,user)
-              
                return redirect('home' )
           else :
                request.session['errs'] = errors

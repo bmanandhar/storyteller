@@ -124,7 +124,7 @@
                 ele +='<div data-id="'+obj[i].id+'" class="editstr"><span class="stredit">Edit</span>';
                 ele +='<span class="strdelete">Delete</span></div>';
             }
-            ele += '<h4 class="hstr">'+obj[i].title+'</h4>';
+            ele += '<h4 class="hstr"><a href="/story/'+obj[i].id+'">'+obj[i].title+'</a></h4>';
             ele += '<div class="clearfix">';
             ele += '<img class="imgstrf float-left" src="http://{{ baseurl }}/media/userpic/'+obj[i].user_id.pic+'">';
             ele += '<p class="authorstr">Author : Ujwalrai</p>';
@@ -211,9 +211,9 @@
             $('#storyfield').empty();
             var strs = $(this).text().split(' ')[0].toLocaleLowerCase();
             if(strs=='all'){
-                getStory($('#storyfield >div').length,true);
+                getStory(0,true);
             }else{
-                getStory($('#storyfield >div').length,true,true);
+                getStory(0,true,true);
             }
         }
         

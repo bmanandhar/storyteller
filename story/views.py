@@ -6,12 +6,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import time
-# from django.middleware import csrf
-#      print(csrf.get_token(request))
 import re
 import datetime
-
 from django.db import connection
+from django.middleware.csrf import get_token
+
 # Create your views here.
 
 def storypage(request) :
@@ -135,5 +134,48 @@ def deleteStory(request, pk):
     return render(request,'story/story.html',{'baseurl':request.get_host() })
 
 def specific_story(request,pk):
-    return render(request,'story/specific_story.html',{'baseurl':request.get_host() })
+    cursor = connection.cursor()
+    cursor.execute('SELECT s.id,s.title,s.body,s.date,s.user_id,u.profile_pic,a.first_name FROM story_story s INNER JOIN user_userprofile u ON u.user_id= s.user_id INNER JOIN auth_user a ON u.user_id = a.id AND s.id ='+str(pk))
+    story = cursor.fetchall()  
+    
+    if len(story) > 0 :
+        data = {
+            'id'    : story[0][0],
+            'title' :story[0][1],
+            'body'  :story[0][2],          
+            'date'  :datetime.datetime.fromtimestamp(int(story[0][3])).strftime('%B-%d-%Y'),
+            'user_id':story[0][4],
+            'pic'   :story[0][5],
+            'name'  :story[0][6]   
+        }     
+        #adding like dislike 
+        cursor.execute("SELECT COUNT(*), types FROM comments_like WHERE story_id = "+str(pk)+" GROUP BY types")
+        result = cursor.fetchall()  
+        likeData = {'like':0,'dislike':0}
+        if len(result) >0 :
+            for r in result :
+                likeData[r[1]] = r[0]
+
+        data['likes'] = likeData
+        #adding comments
+        cursor.execute("SELECT c.id,c.body,c.date,u.first_name,p.profile_pic FROM comments_comment c INNER JOIN auth_user u ON u.id = c.user_id INNER JOIN user_userprofile p ON p.user_id = c.user_id WHERE story_id = "+str(pk) + ' ORDER BY c.date DESC ')
+        comments = cursor.fetchall()  
+        commentData = []
+        
+        if len(comments) >0 :
+            for c in comments :
+                commentData.append({
+                    'id'    :c[0],
+                    'body'  : c[1],
+                    'date'  : datetime.datetime.fromtimestamp(int(c[2])).strftime('%B-%d-%Y %H:%M:%S'),
+                    'name'  : c[3],
+                    'pic'   : c[4],
+                    'edit'  : data['user_id'] == request.user.id and 'edit' or 'noedit'
+                })
+
+        data['comments'] = commentData
+       
+        return render(request,'story/specific_story.html',{'baseurl':request.get_host(),'data':data,'csrf':get_token(request) })
+    else :
+        return HttpResponse(status=403)
     
