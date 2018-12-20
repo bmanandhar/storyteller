@@ -137,9 +137,10 @@ def userProfileEdit(request) :
                               else :
                                    cursor.execute("UPDATE auth_user SET username = '"+username+"' WHERE id = "+str( request.user.id ) )
                          else : # password change
-                              User.objects.filter(id = request.user.id).update(password = password)
-                              # newpassword = hashers.make_password( password )
-                              # cursor.execute("UPDATE auth_user SET password = '"+newpassword+"' WHERE id = "+str(request.user.id) )
+                              u = User.objects.get(id = request.user.id)
+                              u.set_password( password )
+                              u.save()
+                             
              
           return JsonResponse({'message':error,'csrf':csrf.get_token(request)})
      else :
