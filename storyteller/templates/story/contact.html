@@ -1,0 +1,14 @@
+{% extends base.html %}
+    {% block content %}
+        <div class="fp">
+            <div class="container">
+                <a class="hamburger" href=""><i class="fa fa-bars"></i></a>
+                <form method="post" action="mailto:ortizjay83@gmail.com" >
+                    <input type="text" placeholder="Full Name" class="col-third">
+                    <input type="email" placeholder="Email" class="col-third">
+                    <textarea name="" id="" cols="30" rows="10" placeholder="Message"></textarea>
+                    <button id="fetch" type="submit" value="Send Email">Submit</button>
+                </form>
+            </div>
+        </div>
+    {% endblock %}
