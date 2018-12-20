@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <form action="/update/{{ story.id }}" method="post">
+        {% csrf_token %}
+        <label for="user">User: <input type="text" name="user" id="user" 
+            value="{{ story.user }}" placeholder="{{ story.user }}"></label>
+        <label for="body">Body: <input type="text" name="body" id="body" 
+            value="{{ story.body }}" placeholder="{{ story.body }}"></label>
+        <label for="date">Date: <input type="text" name="date" id="date" 
+            value="{{ story.date }}" placeholder="{{ story.date }}"></label>
+        <label for="title">Title: <input type="text" name="title" id="title" 
+            value="{{ story.title }}" placeholder="{{ story.title }}"></label>
+        <input type="submit" value="Update">
+    </form>
+</body>
+</html>
