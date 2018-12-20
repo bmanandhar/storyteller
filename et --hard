@@ -1,0 +1,40 @@
+[33mcommit e14cc35f1bcf51876ac96dee3f89a26aa52c1a28[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: jwlrai <jwolrai@gmail.com>
+Date:   Thu Dec 20 09:45:36 2018 -0800
+
+    before pull
+
+[1mdiff --git a/storyteller/templates/page/base.html b/storyteller/templates/page/base.html[m
+[1mindex fe6d286c..ce52d54a 100644[m
+[1m--- a/storyteller/templates/page/base.html[m
+[1m+++ b/storyteller/templates/page/base.html[m
+[36m@@ -76,7 +76,7 @@[m
+                     <a class="nav-link lnav wclr" id="profile" href="{% url 'profile' %}" >Profile</a>[m
+                 </li>[m
+                 <li class="nav-item llg">  [m
+[31m-                    <a class="nav-link lnav wclr" href="{% url 'logout' %}" >Log out</a>[m
+[32m+[m[32m                    <a class="nav-link lnav wclr" href="/user/logout" >Log out</a>[m
+                 </li>[m
+                 {% endif%}[m
+             </ul>[m
+[1mdiff --git a/user/__pycache__/views.cpython-37.pyc b/user/__pycache__/views.cpython-37.pyc[m
+[1mindex 87ecfd8f..fb6bcad8 100644[m
+Binary files a/user/__pycache__/views.cpython-37.pyc and b/user/__pycache__/views.cpython-37.pyc differ
+[1mdiff --git a/user/views.py b/user/views.py[m
+[1mindex e8e7ce33..b8288727 100644[m
+[1m--- a/user/views.py[m
+[1m+++ b/user/views.py[m
+[36m@@ -137,9 +137,10 @@[m [mdef userProfileEdit(request) :[m
+                               else :[m
+                                    cursor.execute("UPDATE auth_user SET username = '"+username+"' WHERE id = "+str( request.user.id ) )[m
+                          else : # password change[m
+[31m-                              User.objects.filter(id = request.user.id).update(password = password)[m
+[31m-                              # newpassword = hashers.make_password( password )[m
+[31m-                              # cursor.execute("UPDATE auth_user SET password = '"+newpassword+"' WHERE id = "+str(request.user.id) )[m
+[32m+[m[32m                              u = User.objects.get(id = request.user.id)[m
+[32m+[m[32m                              u.set_password( password )[m
+[32m+[m[32m                              u.save()[m
+[32m+[m[41m                             [m
+              [m
+           return JsonResponse({'message':error,'csrf':csrf.get_token(request)})[m
+      else :[m

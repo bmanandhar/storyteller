@@ -1,0 +1,88 @@
+{% extends "./base.html" %}
+{% block content %}
+<div class="fp bg-grd">
+    <div class="container">
+            {% if user.is_authenticated == False  %}
+            <div class="row">
+                <div class="col-sm-8 ptf">
+            {% elif user.is_authenticated == True %}
+            <div class="row">
+                <div class="col-sm-12 ptf">
+            {% endif %}
+                   <h1 class="h1c  mb-5">Welcome to Story-Teller</h1>
+                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis dolores velit, mollitia quia fuga eum minima soluta modi debitis dolorum perspiciatis consectetur labore reiciendis ratione tempora id saepe illo earum.</p>
+                   <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veritatis sequi pariatur amet in vitae temporibus ipsam sunt ut numquam! Ipsa earum sunt asperiores unde reprehenderit necessitatibus odit obcaecati sed quis!</p>
+            
+                </div>
+            {% if user.is_authenticated == False  %}
+                <div class="col-sm-4 ptf">
+                    <h3 class="mt-5 mb-4 wht">Sign Up</h3>
+                    <form method="POST" action="user/register">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input autocomplete="off" class="form-control" name="name" value="" type="text" required placeholder="Full Name" >                            
+                            {% if data != None and data.name != None   %}                            
+                                <div class="inv-data-frm">{{ data.name }}</div>
+                            {% endif  %}                            
+                        </div>                              
+                        <div class="form-group">                           
+                            <input autocomplete="off" class="form-control"  name="email" value="" type="email" required placeholder="Email address">                                
+                            {% if data != None and data.email != None  %}
+                                <div class="inv-data-frm">{{ data.email }}</div>
+                            {% endif  %}
+                        </div>
+                              
+                        <div class="form-group">
+                            <input autocomplete="off"  name="username" type="text" value="" placeholder="Username" required class="form-control" >
+                            {% if data != None and data.username != None  %}
+                                <div class="inv-data-frm">{{ data.username }}</div>
+                            {% endif  %}
+                        </div>
+                        <div class="form-group">
+                            <input autocomplete="off"  name="password" type="password" id="password" value="" placeholder="Password" required class="form-control" >
+                            {% if data != None and data.password != None  %}
+                                <div class="inv-data-frm">{{ data.password }}</div>
+                            {% endif  %}
+                        </div>
+                        <div class="form-group ">
+                            <input autocomplete="off"  name="conpassword" type="password" id="confirm_password" value="" placeholder="Conform Password" required class="form-control" >
+                        </div>
+                        <div class="text-right">
+                            <input type="reset" class="btn btn-secondary mr-2" value="Reset"/>
+                            <input type="submit" class="btn btn-info " value="Submit"/>
+                        </div>
+                    </form>
+                    <script type="text/javascript" >
+                        (function(){
+                            var password = document.getElementById("password")
+                            , confirm_password = document.getElementById("confirm_password");
+
+                            function validatePassword(){
+                            if(password.value != confirm_password.value) {
+                                confirm_password.setCustomValidity("Passwords Don't Match");
+                            } else {
+                                confirm_password.setCustomValidity('');
+                            }
+                            }
+
+                            password.onchange = validatePassword;
+                            confirm_password.onkeyup = validatePassword;
+
+                            $('input.form-control').focusin(function(e){
+                              
+                                $(this).siblings('div.inv-data-frm').remove();
+                            });
+                        }())
+                       
+                    </script>
+                </div>
+            {% endif %} 
+            </div>
+    </div>
+</div>
+<div class="fp">
+    <div class="container">
+        
+    </div>
+</div>
+{% endblock %}

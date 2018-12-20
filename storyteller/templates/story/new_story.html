@@ -1,0 +1,47 @@
+<div id="newstory">
+    
+    <form  id="newstoryform">
+            {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleInputEmail1">Title</label>
+            <input type="text" class="form-control" name="title">
+            
+        </div>
+        <div class="form-group">
+            <label for="exampleTextarea">Story</label>
+            <textarea class="form-control" name="body" rows="10"></textarea>
+        </div>
+        <div class="text-right">
+            <input type="rest" value="Reset" class="btn btn-secondary"/>
+            <input type="submit" value="Submit" class="btn btn-primary"/>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+(function(){
+
+    $('#newstoryform').submit(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: "/story/create",
+            type: "POST",
+            data: $(this).serialize(),
+            success: function(resp) {
+                if(resp.message=='sucess'){
+                    showMessage('Story Created Sucessfully');
+                }
+                $('#cls_ld').trigger('click');
+                
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                $('#cls_ld').trigger('click');
+            }
+        });
+    });  
+    
+        //  end of funciotn
+}());
+
+</script>

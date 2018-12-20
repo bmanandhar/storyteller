@@ -1,0 +1,70 @@
+<div id="editstory">
+    
+    <form  id="editstoryform">
+            {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleInputEmail1">Title</label>
+            <input type="text" value="{{ data.title }}" class="form-control" name="title">
+            
+        </div>
+        <div class="form-group">
+            <label for="exampleTextarea">Story</label>
+            <textarea class="form-control" name="body" rows="10">{{ data.body }}</textarea>
+        </div>
+        <div class="text-right">
+            <input type="rest"  value="Reset" class="btn btn-secondary"/>
+            <input type="submit" id="submitedit" data-id="{{ data.id }}" value="Submit" class="btn btn-primary"/>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+(function(){
+
+    $('#editstoryform').submit(function(e){
+        var id = $('#submitedit').data('id');
+        e.preventDefault();
+        $.ajax({
+            url: "/story/"+id+"/edit",
+            type: "POST",
+            data: $(this).serialize(),
+            success: function(resp) {
+                if(resp.message=='sucess'){
+                    showMessage('Story Updated Sucessfully');
+                    $('div#storyfield div.story').each(function(){
+                        if($(this).children('div.editstr').data('id')==id){
+                            
+                            img = new Image();
+                            img.src = resp.data.user_id.pic;
+                            
+                            ele ='<div data-id="'+resp.data.id+'" class="editstr"><span class="stredit">Edit</span>';
+                            ele +='<span class="strdelete">Delete</span></div>';
+                            ele += '<h4 class="hstr">'+resp.data.title+'</h4>';
+                            ele += '<div class="clearfix">';
+                            ele += '<img class="imgstrf float-left" src="'+img.src+'">';
+                            ele += '<p class="authorstr">Author : Ujwalrai</p>';
+                            ele += '<p class="publishstr">Published at : '+resp.data.date+'</p>';
+                            ele += '<div class="bodystr">';
+                            ele += '<p>'+resp.data.body+'</p>';
+                            ele += '</div>';
+                            ele += '</div>';
+                            
+                            $(this).empty().hide().append(ele).slideDown('slow');
+                        }
+                       
+                    });
+                }
+                $('#cls_ld').trigger('click');
+                
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                $('#cls_ld').trigger('click');
+            }
+        });
+    });  
+    
+        //  end of funciotn
+}());
+
+</script>

@@ -17,11 +17,15 @@
     margin-left:7px;
 }
 .fp{
-    height:100vh;
-   
+    min-height:100vh;   
 }
 .bg-grd{
     background-image: linear-gradient(60deg, white 35% , #369);
+   
+    box-sizing: border-box;
+}
+.wclr{
+    color:white !important;
 }
 .btn-wh{
     color:white;
@@ -30,3 +34,95 @@
 .navbar{
     transition:all .5s ease;
 }
+.ptf{
+    padding-top:90px;
+}
+.h1c{
+    color:#449ad2;
+    padding-top:6rem;
+}
+.hclr{
+    color:#449ad2;
+}
+.wht{
+    color:white;
+}
+.inv-data-frm{
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #F57A00;
+}
+.alert-login{
+    padding:0.20rem 2.25rem;
+    font-size: 1rem;
+    font-weight: normal;
+}
+.alert-login .close{
+    padding:0.25rem .55rem;
+}
+#fpg{
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    z-index:2000;
+    background-color:rgb(0, 0, 0,.4);
+    display:none;
+}
+#dcontent{
+    width:80vw;
+    min-height:80vh;
+    background-color:white;
+    
+    margin:10vh auto;
+    box-sizing: border-box;
+    padding:40px;
+    position: relative;
+    position: relative;
+    top:-300vh;
+    transition:top 1s ease;
+}
+#dcontent > div{   
+    width:100%; height:200%;
+    padding:20px;
+}
+#cls_ld{
+    position:absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    right:40px; top:9px;
+    padding: 0.1rem .6rem;
+    cursor: pointer;
+    color:#b11a1a;
+    font-style: normal;
+}
+
+/* profile */
+
+.prfh{
+    padding-bottom:10px;
+    width:50%;
+    border-bottom:1px solid #dcdcdc;
+    margin: 0 auto;
+    text-align: center;
+    color:#449ad2;
+   
+}
+#message{
+    position:fixed;
+    right:30px; top:-1000px;
+    z-index: 100000;
+    padding:15px;
+    background-color:#e26161;
+    color:white;
+    min-height: 0;
+    overflow: hidden;
+    transition: top .3s ease;
+    font-size:.9rem;
+}
+@media screen and (max-width: 984px) {
+    .wclr{
+        color:black !important;
+    }
+  }
