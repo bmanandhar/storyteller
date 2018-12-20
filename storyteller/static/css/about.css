@@ -1,0 +1,19 @@
+.container {
+    margin: 3px;
+    padding: 2px;
+}
+
+.col-sm {
+    margin: 1px;
+    border: 1px;
+    border-style: solid;
+    border-color: grey;
+    padding: 1px;
+}
+
+.photo {
+    height: 225px;
+    width: 200px;
+    background-color: yellow;
+}
+

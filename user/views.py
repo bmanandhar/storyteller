@@ -5,7 +5,7 @@ from .models import UserProfile
 def home(request):
      print('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
      print(request.user.is_authenticated )
-     return render(request,'page/base.html')
+     return render(request,'page/about.html')
    
 
 

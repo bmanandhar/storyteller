@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="shortcut icon" href="/media/site/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="static/css/main.css">
     <link rel="stylesheet" href="static/css/site.css">
+    <link rel="stylesheet" href="static/css/about.css">
+    <link rel="stylesheet" href="static/css/comment.css">
     <title>StoryTeller</title>
 </head>
 <body>
@@ -52,6 +56,10 @@
           </div>
         </div>
     </div>
+    <div>
+
+
+    </div>
     <div class="fp bg-grd">
         <div class="container">
 
@@ -59,7 +67,8 @@
     </div>
     <div class="fp">
         <div class="container">
-            
+            {% block content %}
+            {% endblock %}
         </div>
     </div>
 </body>
