@@ -14,12 +14,13 @@ def index(request):
     return render(request, '/story/', context)
 
 def details(request, id=None):
-    context = { 'story' :story }
+    context = { 
+        'story' :story 
+        }
     story = Story.objects.get(id=id)
-    return render(request, '/story/', context)
+    return render(request, '/', context)
 
 
-@csrf_exempt
 def create(request):
     # print request.POST
     print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
@@ -31,7 +32,7 @@ def create(request):
         title=request.POST['title'],)
         stry =  story.save()
         print(stry)
-        return redirect('')
+        return redirect('/')
     else:
         print(story.error)
         return JsonResponse({'foo':'bar'})
@@ -51,12 +52,12 @@ def update(request, id):
     story.date = request.POST['date']
     stroy.title = request.POST['title']
     story.save()
-    return redirect('/story/')
+    return redirect('/')
 
 def delete(request, id):
     story = Story.objects.delete(id=id)
     story.delete()
-    return redirect('/story/')
+    return redirect('')
     print('story deleted')
-    return HttpResponseRedirect('/story/')
+    return HttpResponseRedirect('/')
 
