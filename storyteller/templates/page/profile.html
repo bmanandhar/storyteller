@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-4 ">
             <div id="profile_pic">
-                <div id="profiledit" class=""><p class="btn btn-info">Edit</p></div>
+                <div id="profiledit" class=""><p class="btn btn-info">Change Image</p></div>
                     <div id="imgeditcon" class=""></div>
                     <div id="imgedit" class=""><div></div></div>
             </div>
@@ -31,7 +31,7 @@
                 <label class="control-label">Name</label>
                 <div class="form-group">
                     <div class="input-group mb-3">
-                    <input type="text" readonly class="form-control" name="name" >
+                    <input type="text" required readonly class="form-control" value="{{ user.name }}" name="name" >
                     <div class="">
                         <span class="btn btn-info btn_radc ">Edit</span>
                     </div>
@@ -44,7 +44,7 @@
                 <label class="control-label">Email</label>
                 <div class="form-group">
                     <div class="input-group mb-3">
-                    <input type="text" readonly class="form-control" name="email">
+                    <input type="text" required readonly class="form-control" value="{{ user.email }}" name="email">
                     <div class="">
                         <span class="btn btn-info btn_radc ">Edit</span>
                     </div>
@@ -57,8 +57,8 @@
                 <form>
                 <div class="form-group">
                     <div class="input-group mb-3">
-                    <input type="text" readonly class="form-control" name="username">
-                    <input type="text" placeholder="Old password" class="form-control"name="old_password">
+                    <input type="text" required value="{{ user.username }}" readonly class="form-control" name="username">
+                    <input type="password" required placeholder="Old password" class="form-control d-none"name="old_password">
                     <div class="">
                         <span class="btn btn-info btn_radc ">Edit</span>
                     </div>
@@ -71,8 +71,8 @@
                 <label class="control-label">Password</label>
                 <div class="form-group">
                     <div class="input-group mb-3">
-                    <input type="text" readonly class="form-control" name="password">
-                    <input type="text" placeholder="Old password" class="form-control" name="old_password">
+                    <input type="password" required readonly class="form-control" name="password">
+                    <input type="password" required placeholder="Old password" class="form-control d-none" name="old_password">
                     <div class="">
                         <span class="btn btn-info btn_radc ">Edit</span>
                     </div>
@@ -80,9 +80,7 @@
                 </div>
                 </form>
             </div>
-
-
-            
+ 
         </div>
         
     </div>
@@ -110,7 +108,7 @@
         width:60%;
         margin:20% auto;
         
-        background-image: url('/media/userpic/ujwal.jpg');
+        background-image: url('/media/userpic/{{ user.pic }}');
         background-repeat: no-repeat;
         
         background-size:500px auto;
@@ -122,7 +120,7 @@
         top:0; left:0;
         height:100%;
         width:100%;
-        background-image: url('/media/userpic/ujwal.jpg');
+        background-image: url('/media/userpic/{{ user.pic }}');
         background-repeat: no-repeat;
         background-position: 0px 0px;
         background-size:500px auto;
@@ -166,8 +164,7 @@
 <script type="text/javascript">
 $(document).ready(function(e){
 
-   
-console.log($('#imgedit >div').css('background-image'));
+
     var start_url = $('#imgedit >div').css('background-image');
     var mouseStatus = null
     var editimage = false;
@@ -283,8 +280,36 @@ console.log($('#imgedit >div').css('background-image'));
             reader.readAsDataURL($(this)[0].files[0]);
         }
     });
+    
+    var csrf = '{{ csrf }}';
     $('.btn_radc').click(function(e){
-        console.log('clock');
+        var txt = $(this).text().toLocaleLowerCase();
+        if(txt =='edit'){
+            $(this).parent('div').siblings('input').removeClass('d-none').removeAttr('readonly').focus();
+            $(this).text('Save');
+        }
+        else if(txt =='save'){
+            $(this).parent('div').siblings('input').attr('readonly','readonly');
+            $(this).parent('div').siblings('input:nth-child(2)').addClass('d-none');
+            $(this).text('Edit');
+            var serialize = $(this).parents('form').serialize();
+            console.log(serialize);
+            $.ajax({
+                url: '/user/profile/edit',
+                type: "POST",
+                data:serialize+"&csrfmiddlewaretoken="+csrf,
+                success: function(resp) {
+                    
+                    showMessage(resp.message);
+                    
+                    csrf = resp.csrf;
+                },
+                error: function(jqXHR, textStatus, errorMessage) {
+                    showMessage("Error Found Contact admin");
+                }
+            });
+        }
+       console.log(txt);
     });
 });
 </script>

@@ -1,12 +1,12 @@
 from django.shortcuts import render,redirect
 from .models import UserProfile
-from django.http import HttpResponse
-# from django.views.decorators.csrf import csrf_exempt
-# @csrf_exempt
+from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.middleware import csrf
+from django.db import connection
+from django.contrib.auth import hashers
 import re
 
 
@@ -29,7 +29,17 @@ def userLogout(request) :
 
 @login_required
 def userProfile(request) :    
-     return render(request,'page/profile.html',{'baseurl':request.get_host(),'csrf':csrf.get_token(request) })
+     cursor = connection.cursor()
+     cursor.execute("SELECT u.first_name,u.email,u.username, p.profile_pic FROM auth_user u INNER JOIN user_userprofile p ON p.user_id = u.id WHERE u.id = "+str(request.user.id))
+     user = cursor.fetchone()  
+     userData = {
+          "name"    :user[0],
+          "email"   :user[1],
+          "username":user[2],
+          "pic"     :user[3],
+     }
+     
+     return render(request,'page/profile.html',{'baseurl':request.get_host(),'csrf':csrf.get_token(request),"user":userData })
     
 def userLogin(request):
      if request.method == 'POST':
@@ -93,7 +103,48 @@ def register(request) :
                return redirect('home' )
      else:
           return HttpResponse(status=403)
-   
+
+@login_required
+def userProfileEdit(request) :
+     if request.method == 'POST':
+          
+          name           = request.POST.get('name','')
+          email          = request.POST.get('email','')
+          username       = request.POST.get('username','')
+          password       = request.POST.get('password','')
+          old_password   = request.POST.get('old_password','')
+          error          =  'Sucessfully updated user profile'
+
+          if re.sub(r'\s+', '', name) == '' and re.sub(r'\s+', '', email) == '' and re.sub(r'\s+', '', username) == '' and re.sub(r'\s+', '', password) == '' :
+               error = 'Invalid data found in field'
+          else :
+               cursor = connection.cursor()
+               if name != '' :
+                    cursor.execute("UPDATE auth_user SET first_name = '"+name+"' WHERE id = "+str(request.user.id))
+               elif email != '':
+                    cursor.execute("UPDATE auth_user SET email = '"+email+"' WHERE id = "+str(request.user.id))
+               elif username != '' or password != '':  # if username or password                 
+                    cursor.execute("SELECT password FROM auth_user WHERE id = "+str(request.user.id))
+                    password = cursor.fetchone()  
+
+                    if hashers.check_password(old_password,password[0]) == False :# hash password
+                         error = 'Password not matched'
+                    else :
+                         if username != '': # username change
+                             
+                              if User.objects.filter( username = username ).exists():
+                                   error = 'Username already exist'
+                              else :
+                                   cursor.execute("UPDATE auth_user SET username = '"+username+"' WHERE id = "+str( request.user.id ) )
+                         else : # password change
+                              User.objects.filter(id = request.user.id).update(password = password)
+                              # newpassword = hashers.make_password( password )
+                              # cursor.execute("UPDATE auth_user SET password = '"+newpassword+"' WHERE id = "+str(request.user.id) )
+             
+          return JsonResponse({'message':error,'csrf':csrf.get_token(request)})
+     else :
+          return HttpResponse(status=403)
+
 
 
 
