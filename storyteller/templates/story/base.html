@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
@@ -70,3 +71,18 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="static/js/main.js"></script>
 </html>
+=======
+{% extends 'base.html' %}
+    {% block content %}
+    <div class="fp">
+        <div class="container">
+            <form method="post" action="mailto:ortizjay83@gmail.com" >
+                <input type="text" placeholder="Full Name" class="col-third">
+                <input type="email" placeholder="Email" class="col-third">
+                <textarea name="" id="" cols="30" rows="10" placeholder="Message"></textarea>
+                <button id="fetch" type="submit" value="Send Email">Submit</button>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+>>>>>>> 5b69807b8eb0783e6f59a976508db378c5d6af22

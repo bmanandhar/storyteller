@@ -1,19 +1,16 @@
-.container {
-    margin: 3px;
-    padding: 2px;
-}
-
-.col-sm {
-    margin: 1px;
-    border: 1px;
+.comment {
+    margin: 2px;
+    border: 2px;
+    padding: 3px;
     border-style: solid;
-    border-color: grey;
-    padding: 1px;
-}
-
-.photo {
-    height: 225px;
-    width: 200px;
-    background-color: yellow;
-}
-
+    border-color: black;
+    height: 400px;
+    width: 800px;
+    background-color: lightgray;
+    border-radius: 2%;
+    text-align: center;
+  }
+  
+  button {
+    color: green;
+  }

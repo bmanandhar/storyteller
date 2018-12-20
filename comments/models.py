@@ -4,11 +4,11 @@ import datetime
 # Create your models here.
 
 class Comment(models.Model):
+    post = models.TextField()
     comment = models.CharField(max_length=100)
     user = models.CharField(max_length=100)
-    story = models.CharField(max_length=100)
     date = models.CharField(max_length=100)
     
-
     def __str__(self):
-        return self.user
+        return self.date
+
