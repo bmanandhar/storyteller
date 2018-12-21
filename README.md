@@ -14,7 +14,7 @@
 
 * Working on this project has been one of the best practices that we ever had in the django framework. 
 
-* We now have the knowledge of python ,prostgresql, Django framework .
+* We now have the knowledge of python, prostgresql, Django framework .
 
 * It is an outcome that the group achieved with great help from instructors **Isha Arora** and **Dalton Hart** who never got tired answering any questions we had and solving issues that came up as hurdles in writing code to complete this project.
 
