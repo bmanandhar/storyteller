@@ -109,6 +109,13 @@
     color:#449ad2;
    
 }
+.img3{
+    height: 200px;
+    width: 200px;
+    border-radius: 120px;
+    border:1px solid #d1d1d1;
+    margin:0 auto;
+}
 #message{
     position:fixed;
     right:30px; top:-1000px;
@@ -121,6 +128,7 @@
     transition: top .3s ease;
     font-size:.9rem;
 }
+
 @media screen and (max-width: 984px) {
     .wclr{
         color:black !important;

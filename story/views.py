@@ -23,16 +23,17 @@ def allstory(request,pk):
     stories = cursor.fetchall()   
     data = []
     for story in stories :
-        cursor.execute('SELECT profile_pic FROM user_userprofile WHERE user_id='+ str(story[4]))
+        cursor.execute('SELECT p.profile_pic,u.first_name FROM user_userprofile p INNER JOIN auth_user u ON u.id = p.user_id WHERE user_id='+ str(story[4]))
         usr = cursor.fetchall()   
        
         usrData = {
             "id":story[4],
-            "pic" : "default.png"
+            "pic" : "default.png",
+           
         }
         if len(usr) > 0 :
             usrData['pic'] = usr[0][0]
-       
+            usrData['name'] = usr[0][1]
         data.append(
             {
                 'id':story[0],

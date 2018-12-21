@@ -8,8 +8,9 @@ from django.middleware import csrf
 from django.db import connection
 from django.contrib.auth import hashers
 import re
-
-
+import base64
+from django.core.files.base import ContentFile
+from binascii import a2b_base64
 
 
 # Create your views here.
@@ -107,15 +108,14 @@ def register(request) :
 @login_required
 def userProfileEdit(request) :
      if request.method == 'POST':
-          
           name           = request.POST.get('name','')
           email          = request.POST.get('email','')
           username       = request.POST.get('username','')
-          password       = request.POST.get('password','')
+          newpassword    = request.POST.get('password','')
           old_password   = request.POST.get('old_password','')
           error          =  'Sucessfully updated user profile'
 
-          if re.sub(r'\s+', '', name) == '' and re.sub(r'\s+', '', email) == '' and re.sub(r'\s+', '', username) == '' and re.sub(r'\s+', '', password) == '' :
+          if re.sub(r'\s+', '', name) == '' and re.sub(r'\s+', '', email) == '' and re.sub(r'\s+', '', username) == '' and re.sub(r'\s+', '', newpassword) == '' :
                error = 'Invalid data found in field'
           else :
                cursor = connection.cursor()
@@ -123,7 +123,7 @@ def userProfileEdit(request) :
                     cursor.execute("UPDATE auth_user SET first_name = '"+name+"' WHERE id = "+str(request.user.id))
                elif email != '':
                     cursor.execute("UPDATE auth_user SET email = '"+email+"' WHERE id = "+str(request.user.id))
-               elif username != '' or password != '':  # if username or password                 
+               elif username != '' or newpassword != '':  # if username or password                 
                     cursor.execute("SELECT password FROM auth_user WHERE id = "+str(request.user.id))
                     password = cursor.fetchone()  
 
@@ -138,7 +138,7 @@ def userProfileEdit(request) :
                                    cursor.execute("UPDATE auth_user SET username = '"+username+"' WHERE id = "+str( request.user.id ) )
                          else : # password change
                               u = User.objects.get(id = request.user.id)
-                              u.set_password( password )
+                              u.set_password( newpassword )
                               u.save()
                              
              
@@ -146,6 +146,24 @@ def userProfileEdit(request) :
      else :
           return HttpResponse(status=403)
 
+@login_required
+def uploadImage(request) :
+     if request.method == 'POST':
+          image  = request.POST.get('image','')
+          format, imgstr = image.split(';base64,')
+          print('ddddddddddddddddddddddddddddddddddd')
+          print("format", format)
+          # ext = format.split('/')[-1] 
+          binary_data = a2b_base64(imgstr)
+
+          fd = open('storyteller/static/images/upload/img.png', 'wb')
+          fd.write(binary_data)
+          fd.close()
+          # data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext) 
+          # data.file.save()
+          return JsonResponse({'csrf':csrf.get_token(request)})
+     else :
+          return HttpResponse(status=403)
 
 
 

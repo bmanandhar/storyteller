@@ -1,7 +1,7 @@
 {% extends "../page/base.html" %}
 {% block content %}
 
-<div id="storypage">
+<div id="storypage" class="fp">
     {% if user.is_authenticated == True  %}
     <div class="container mb-3">
             <ul class="nav nav-tabs">
@@ -18,20 +18,6 @@
     {% endif %}
     <div class="container" id="storyfield">
             
-            <!-- <div class="story">
-                <div class="editstr"><span class="stredit">Edit</span><span class="strdelete">Delete</span></div>
-                <h4 class="hstr">This is a new story and this is it heading</h4>
-                <div class="clearfix">
-                    <img class="imgstrf float-left" src="http://{{ baseurl }}/media/userpic/ujwal.jpg">
-                    <p class="authorstr">Author : Ujwalrai</p>
-                    <p class="publishstr">Published at : 2018-12-12</p>
-                    <div class="bodystr">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis ipsam voluptatum quas iusto, obcaecati nulla cupiditate. Neque corporis, necessitatibus aliquam nesciunt obcaecati ab itaque optio, laudantium eaque quidem vitae ut.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis ipsam voluptatum quas iusto, obcaecati nulla cupiditate. Neque corporis, necessitatibus aliquam nesciunt obcaecati ab itaque optio, laudantium eaque quidem vitae ut.</p>
-                        
-                    </div>
-                </div>
-            </div> -->
     </div><!--  end of container  -->
 
 </div>
@@ -126,8 +112,8 @@
             }
             ele += '<h4 class="hstr"><a href="/story/'+obj[i].id+'">'+obj[i].title+'</a></h4>';
             ele += '<div class="clearfix">';
-            ele += '<img class="imgstrf float-left" src="http://{{ baseurl }}/media/userpic/'+obj[i].user_id.pic+'">';
-            ele += '<p class="authorstr">Author : Ujwalrai</p>';
+            ele += '<img class="imgstrf float-left" src="http://{{ baseurl }}/static/images/userpic/'+obj[i].user_id.pic+'">';
+            ele += '<p class="authorstr">Author : '+obj[i].user_id.name+'</p>';
             ele += '<p class="publishstr">Published at : '+obj[i].date+'</p>';
             ele += '<div class="bodystr">';
             ele += '<p>'+obj[i].body+'</p>';

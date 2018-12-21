@@ -5,7 +5,7 @@
     <div class="container">
         <h4 class="hstr mt-3 mb-3">{{ data.title }}</h4>
         <div class="clearfix">
-            <img class="imgstrf float-left" src="http://{{ baseurl }}/media/userpic/{{ data.pic }}">
+            <img class="imgstrf float-left" src="http://{{ baseurl }}/static/images/userpic/{{ data.pic }}">
             <p class="authorstr">Author : {{ data.name}}</p>
             <p class="publishstr">Published at : 2018-12-12</p>
             <div class="bodystr">{{ data.body }} </div>
@@ -38,16 +38,16 @@
                 {% endif  %}
                 <div id="cmtf">
                     {% for c in data.comments  %}
-                    <div class="mb-4" >
+                    <div class="mb-4 cmmts" >
                         {% if c.edit == 'edit'  %}
                         <div class="exitcomment">
                             <p data-id="{{ c.id }}"><span>Delete</span></p>
                         </div>
                         {% endif %}
                         <div class="clearfix">
-                                <img class="cimgstrf float-left" src="http://{{ baseurl }}/media/userpic/{{ c.pic }}">
-                                <p class="cauthorstr">Author : {{ c.name }}</p>
-                                <p class="cpublishstr">Published at : {{ c.date }}</p>
+                                <img class="cimgstrf float-left" src="http://{{ baseurl }}/static/images/userpic/{{ c.pic }}">
+                                <p class="cauthorstr">From : {{ c.name }}</p>
+                                <p class="cpublishstr">Date : {{ c.date }}</p>
                         </div>
                         <div class="mt-2">
                                 <p>{{  c.body }}</p>
@@ -55,25 +55,14 @@
                         
                     </div>
                     {% endfor %}
-                    <!-- <div class="mb-4" >
-                            <div class="clearfix">
-                                    <img class="cimgstrf float-left" src="http://{{ baseurl }}/media/userpic/ujwal.jpg">
-                                    <p class="cauthorstr">Author : Ujwalrai</p>
-                                    <p class="cpublishstr">Published at : 2018-12-12</p>
-                            </div>
-                            <div class="mt-2">
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate et, provident repellat explicabo consequuntur molestias. Consequuntur exercitationem corrupti deleniti reprehenderit corporis non optio hic, molestiae distinctio cumque dolores, facilis necessitatibus.</p>
-                            </div>
-                            
-                        </div> -->
-                    
-
+                   
                 </div>
             </div>
         </div>
     </div>
     
 </div>
+
 <style>
 
     body{
@@ -132,7 +121,7 @@
         margin:50px 0;
     }
     .like{
-        background-image: url('http://{{ baseurl }}/media/site/like.jpg');
+        background-image: url('http://{{ baseurl }}/static/images/site/like.jpg');
         background-repeat: no-repeat;
         background-size: 17px 17px;
         padding:0 10px 0 25px;
@@ -142,7 +131,7 @@
         
     }
     .dislike{
-        background-image: url('http://{{ baseurl }}/media/site/dislike.png');
+        background-image: url('http://{{ baseurl }}/static/images/site/dislike.png');
         background-repeat: no-repeat;
         background-size: 17px 17px;
         padding:0 10px 0 25px;
@@ -163,7 +152,8 @@
     .exitcomment{
         position:absolute;
         right:0;
-        display: none;
+        opacity: 0;
+        transition: opacity .6s ease;
     }
     .exitcomment span{
         background-color:red;
@@ -174,7 +164,7 @@
         cursor: pointer;
     }
     #cmtf > div:hover .exitcomment{
-        display: block;
+        opacity: 1;
     }
 </style>
 {% if user.is_authenticated == True  %}
@@ -223,16 +213,16 @@
                 success: function(resp) {
                     showMessage(resp.message);
 
-                    ele = '<div class="mb-4" >';
+                    ele = '<div class="mb-4 cmmts" >';
                     if(resp.comment.edit == 'edit'){
                         ele +='<div class="exitcomment">';
                         ele +='<p data-id="'+resp.comment.id+'"><span>Delete</span></p>';
                         ele +='</div>';
                     }
                     ele +='<div class="clearfix">';
-                    ele +='<img class="cimgstrf float-left" src="http://'+resp.comment.baseurl+'/media/userpic/'+resp.comment.pic+'">';
-                    ele +='<p class="cauthorstr">Author : '+resp.comment.name+'</p>';
-                    ele +='<p class="cpublishstr">Published at : '+resp.comment.date+'</p>';
+                    ele +='<img class="cimgstrf float-left" src="http://'+resp.comment.baseurl+'/static/images/userpic/'+resp.comment.pic+'">';
+                    ele +='<p class="cauthorstr">From : '+resp.comment.name+'</p>';
+                    ele +='<p class="cpublishstr">Date : '+resp.comment.date+'</p>';
                     ele +='</div>';
                     ele +='<div class="mt-2">';
                     ele +='<p>'+resp.comment.body+'</p>';
@@ -254,6 +244,29 @@
             showMessage("Comment field is empty");
         }
         
+    });
+    $('#cmtf').on('click','div.exitcomment p span',function(e){
+        comment = $(this).parents('div.cmmts');
+        $.ajax({
+            url: '/comments/'+$(this).parent('p').data('id')+'/delete',
+            type: "POST",       
+            data:{
+                'csrfmiddlewaretoken': csrf
+            },   
+            success: function(resp) {
+                showMessage(resp.message);
+                
+                comment.slideUp('slow');
+                setTimeout(function(){ 
+                    comment.remove();
+                }, 800)
+                
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                showMessage("Error Found Contact admin");
+            }
+        });
+       
     });
 }())
 

@@ -92,12 +92,10 @@
         height:400px;
         position: relative;
         overflow: hidden;
-        
     }
     #imgedit{
         height:100%;
         width:100%;
-        
         background-color:rgb(0,0,0,.5);
         position:absolute;
         top:0; left:0;
@@ -106,11 +104,9 @@
     #imgedit >div{
         height:60%;
         width:60%;
-        margin:20% auto;
-        
-        background-image: url('/media/userpic/{{ user.pic }}');
-        background-repeat: no-repeat;
-        
+        margin:20% auto;        
+        background-image: url('/static/images/userpic/{{ user.pic }}');
+        background-repeat: no-repeat;        
         background-size:500px auto;
         z-index: 20000;
         
@@ -120,7 +116,7 @@
         top:0; left:0;
         height:100%;
         width:100%;
-        background-image: url('/media/userpic/{{ user.pic }}');
+        background-image: url('/static/images/userpic/{{ user.pic }}');
         background-repeat: no-repeat;
         background-position: 0px 0px;
         background-size:500px auto;
@@ -178,6 +174,9 @@ $(document).ready(function(e){
     
     var tops  = innerOff.top - parentOffset.top;
     var lefts  = innerOff.left - parentOffset.left;
+    crop_img = new Image();
+    crop_img.src = 'http://{{ baseurl }}/static/images/userpic/{{ user.pic }}';
+    console.log(crop_img);
     var sizePic = parseFloat($('#imgedit >div').css('background-size').split(' ')[0]);
     $('#imgedit').hide();
     $('#imgedit >div').css('background-position','-'+tops+'px -'+lefts+'px');
@@ -201,7 +200,6 @@ $(document).ready(function(e){
         
     });
     $('#imgedit').mousemove(function(e){
-       
         if( mouseStatus == 'down'){
             x =  (e.pageX - parentOffset.left);
             y = (e.pageY - parentOffset.top);
@@ -235,18 +233,24 @@ $(document).ready(function(e){
     });
     $('#profiledit > p').click(function(e){
         editimage = true;
+    
         $('#profile_pic').trigger('mouseout');
         $('#imgedit').show();
         $('#editimgopt').show();
     });
     $('#cancelImg').click(function(e){
         $('#imgedit').hide();
-        $('#editimgopt').hide();
-        editimage = false;
+        $('#editimgopt').hide();       
         $('#imgeditcon,#imgedit >div').css('background-image','500px auto');
-        // start_url
+    
     });
+    
     $('#chgimg').click(function(e){
+
+        resize_canvas = document.createElement('canvas');
+        var ctx = resize_canvas.getContext('2d');
+       
+
         editimage = false;
         scale = parseFloat($('#imgeditcon').width())/parseFloat($('#imgedit >div').width());
         $('#imgedit').hide();
@@ -262,7 +266,26 @@ $(document).ready(function(e){
         $('#imgedit>div').css('background-position-y',(bpy*scale)-tops+'px');
         sizePic = bsz*scale;
         $('#zimg').val(0);
+        ctx.drawImage(crop_img,
+        bpx, bpy,
+        $('#imgedit>div').height(),$('#imgedit>div').width()
+        );
         
+        $.ajax({
+            url: '/user/pic/upload',
+            type: "POST",
+            data:{
+                'csrfmiddlewaretoken':csrf,
+                'image':ctx.canvas.toDataURL("image/png")
+            },
+            success: function(resp) {
+                
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+               
+            }
+        });
+
     });
     $('#profilimageUpload').change(function(e){
         
@@ -271,6 +294,7 @@ $(document).ready(function(e){
             var reader = new FileReader();
 
             reader.onload = function (e) {
+
                 $('#profilimageUploadlabel').empty().text(fname);
                 $('#imgeditcon').css('background', 'url('+e.target.result +') no-repeat');
                 $('#imgedit>div').css('background', 'url('+e.target.result +') no-repeat');
@@ -293,7 +317,6 @@ $(document).ready(function(e){
             $(this).parent('div').siblings('input:nth-child(2)').addClass('d-none');
             $(this).text('Edit');
             var serialize = $(this).parents('form').serialize();
-            console.log(serialize);
             $.ajax({
                 url: '/user/profile/edit',
                 type: "POST",
@@ -309,7 +332,7 @@ $(document).ready(function(e){
                 }
             });
         }
-       console.log(txt);
+       
     });
 });
 </script>

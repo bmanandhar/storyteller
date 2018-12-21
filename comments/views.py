@@ -22,7 +22,7 @@ def incrementLike(request,pk):
 
     if len(like) > 0 :
         if like[0][1] == 'like' :
-            return JsonResponse({'message':"You can't like more than once",'csrf':get_token(request)})
+            return JsonResponse({'message':"You can't like/dislike more than once",'csrf':get_token(request)})
         else :
             cursor.execute("DELETE FROM comments_like WHERE id = "+ str(like[0][0]) )   
     cursor.execute("INSERT INTO comments_like ( story_id, user_id, types,date ) VALUES ("+str(pk)+", "+str(request.user.id)+",'like',"+str(int(time.time()))+")")
@@ -41,7 +41,7 @@ def incrementDislike(request,pk):
 
     if len(like) > 0 :
         if like[0][1] == 'dislike' :
-            return JsonResponse({'message':"You can't like more than once",'csrf':get_token(request)})
+            return JsonResponse({'message':"You can't like/dislike more than once",'csrf':get_token(request)})
         else :
             cursor.execute("DELETE FROM comments_like WHERE id = "+ str(like[0][0]) )   
     cursor.execute("INSERT INTO comments_like ( story_id, user_id, types,date ) VALUES ("+str(pk)+", "+str(request.user.id)+",'dislike',"+str(int(time.time()))+")")
@@ -79,5 +79,17 @@ def createComment(request) :
         return JsonResponse({'message':'Comment added sucesfully','csrf':get_token(request),'comment':commentData})
     else :
         return HttpResponse(status=403)
+
+@login_required 
+def deleteComment(request,pk) :
+    cursor = connection.cursor()
+    cursor.execute("SELECT c.id,c.user_id,c.story_id,s.user_id FROM comments_comment c INNER JOIN story_story s ON s.id = c.story_id WHERE c.id = "+str(pk))
+    comment = cursor.fetchone()  
+    message = 'Comment Deleted'
+    if request.user.id == comment[1] or request.user.id == comment[3] :
+        cursor.execute('DELETE FROM comments_comment WHERE id ='+str(pk))
+    else :
+        message = "Invalid query"
+    return JsonResponse({'message':message})
         
 
