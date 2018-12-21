@@ -1,33 +1,27 @@
-#### Web-Link to landing-page:
-http://storyteller-49.herokuapp.com/
-
-### Overview:
+# Overview:
 
 * This group-project has been developed as a part that is required to graduate the WDI49 course at GA(San Francisco). Group includes *Bijaya Manandhar, Ujwol Rai and Jay Ortiz* who worked for a week to get it ready starting from scratch.
 
-* The isdea of using this web-app is to create data-base from two different groups of users. 
+* The idea behind this application is to create a blog where people can share their story 
 
-  * Author or writer: Who are interested in writing stories (or any literary article) and present to readers in the web. They can recieve the comments readers will post.
+  * Author: Who are interested in writing stories (or any literary article) and present to readers in the web. They can recieve the comments readers will post but they need to login or have login credentials. Author can delete comments on his own post/article
+        
+  * Reader : Reader are the users who may or maynot have login credentials. They can read all the post/story but can't  comment. To make comment user must have login credentials
 
-  * Readers: We have catogorised readers into three subgroups:
-
-    1. Readers who simply visit website and enjoy reading the posted aricles.
-
-    2. Readers who sign-up and read the articles posted. They (if wish) can post their views on the article they read using comment form. 
-
-    3. The users who posted articles or comments have acces to edit/delete their respective posts. Similarly Author group has access to delete the comments they received, no edit.
-
-* The product can still be enlarged so as to include option for authors, such as catagrize the articles received that may be story, travel-blog, poems etc. 
+* The product can still be enlarged so as to include option for authors, such as categorzie the articles received that may be story, travel-blog, poems etc. 
 
 * We can proudly present the work to the potential employers, friends and family members. 
 
-* This project has been a very good school for us to learn the Django framework in developing a web app and deploying on heroku platform. 
+* Doing this project would be one of the best practices in the django framework. 
 
-* We now have good knowledge how url's, file-system, templating language work in case of Django framework using Pyhton programing language.
+* We now have the knowledge of python ,prostgresql, Django framework .
 
-* It is an outcome that the group achieved with great help from instructors **Isha Arora** and **Dalton Hart** who never got tired answering any question we had and solving out issues that came up as hurdles in writing code to complete this project.
+* It is an outcome that the group achieved with great help from instructors **Isha Arora** and **Dalton Hart** who never got tired answering any questions we had and solving issues that came up as hurdles in writing code to complete this project.
 
-#### Technologies involved:
+### Web-Link to landing-page in heroku :
+http://storyteller-49.herokuapp.com/
+
+### Technologies and framework involved:
 
 * html5
 * css
@@ -39,5 +33,3 @@ http://storyteller-49.herokuapp.com/
 * Django(2.0.5) framework
 * postgresql database
 * psycopg2 software
-
-
